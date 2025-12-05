@@ -35,6 +35,15 @@ public class ImageProcessing {
     }
     public static int[][] negativeColor(int[][] imageTwoD) {
         // TODO: Fill in the code for this method
+        int[][] negativeImage = new int[imageTwoD.length][imageTwoD[0].length];
+        for (int i = 0; i < imageTwoD.length; i++){
+            for( int j = 0; j < imageTwoD[i].length; j++){
+                int[] rgba = getRGBAFromPixel(imageTwoD[i][j]);
+                rgba[0] = 255 - rgba[0];
+                rgba[1] = 255 - rgba[1];
+                rgba[2] = 255 - rgba[2];
+            }
+        }
         return null;
     }
     public static int[][] stretchHorizontally(int[][] imageTwoD) {
