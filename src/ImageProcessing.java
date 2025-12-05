@@ -12,6 +12,20 @@ public class ImageProcessing {
         // Or load your own image using a URL!
         //int[][] imageData = imgToTwoD("https://content.codecademy.com/projects/project_thumbnails/phaser/bug-dodger.png");
         //viewImageData(imageData);
+
+        // OUTPUT FOR NEGATIVE IMAGE METHOD
+        int[][] negImg = negativeColor(imageData);
+        twoDToImage(negImg, "./negative_apple.jpg");
+
+        // OUTPUT FOR HORIZONTAL STRETCH
+        int[][] stretchedHImg = stretchHorizontally(imageData);
+        twoDToImage(stretchedHImg, "./stretched_apple.jpg");
+
+        // OUTPUT FOR VERTICAL SHRINK
+        int[][] shrankVImg = shrinkVertically(imageData);
+        twoDToImage(shrankVImg, "./shrank_apple.jpg");
+
+        // OUTPUT FOR TRIMMED
         int[][] trimmed = trimBorders(imageData, 60);
         twoDToImage(trimmed, "./trimmed_apple.jpg");
         // int[][] allFilters = stretchHorizontally(shrinkVertically(colorFilter(negativeColor(trimBorders(invertImage(imageData), 50)), 200, 20, 40)));
@@ -34,7 +48,6 @@ public class ImageProcessing {
         }
     }
     public static int[][] negativeColor(int[][] imageTwoD) {
-        // TODO: Fill in the code for this method
         int[][] negativeImage = new int[imageTwoD.length][imageTwoD[0].length];
         for (int i = 0; i < imageTwoD.length; i++){
             for( int j = 0; j < imageTwoD[i].length; j++){
@@ -42,17 +55,32 @@ public class ImageProcessing {
                 rgba[0] = 255 - rgba[0];
                 rgba[1] = 255 - rgba[1];
                 rgba[2] = 255 - rgba[2];
+                negativeImage[i][j] = getColorIntValFromRGBA(rgba);
             }
         }
-        return null;
+        return negativeImage;
     }
     public static int[][] stretchHorizontally(int[][] imageTwoD) {
-        // TODO: Fill in the code for this method
-        return null;
+        int[][] manipulatedImg = new int[imageTwoD.length][imageTwoD[0].length * 2];
+        int it = 0;
+        for (int i = 0; i < imageTwoD.length; i++) {
+            for (int j = 0; j < imageTwoD[i].length; j++) {
+                it = j * 2;
+                manipulatedImg[i][it] = imageTwoD[i][j];
+                manipulatedImg[i][it + 1] = imageTwoD[i][j];
+            }
+        }
+        return manipulatedImg;
     }
     public static int[][] shrinkVertically(int[][] imageTwoD) {
-        // TODO: Fill in the code for this method
-        return null;
+        int[][] manipulatedImg = new int[imageTwoD.length / 2][imageTwoD[0].length];
+        int it = 0;
+        for (int i = 0; i < imageTwoD[0].length; i++) {
+            for (int j = 0; j < imageTwoD.length-1; j += 2) {
+                manipulatedImg[j / 2][i] = imageTwoD[j][i];
+            }
+        }
+        return manipulatedImg;
     }
     public static int[][] invertImage(int[][] imageTwoD) {
         // TODO: Fill in the code for this method
