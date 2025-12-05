@@ -7,13 +7,12 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 public class ImageProcessing {
     public static void main(String[] args) {
-        // The provided images are apple.jpg, flower.jpg, and kitten.jpg
+        // The provided images is apple.jpg
         int[][] imageData = imgToTwoD("./apple.jpg");
         // Or load your own image using a URL!
-        //int[][] imageData = imgToTwoD("https://content.codecademy.com/projects/project_thumbnails/phaser/bug-dodger.png");
         //viewImageData(imageData);
 
-        // OUTPUT FOR NEGATIVE IMAGE METHOD
+        // OUTPUT FOR NEGATIVE
         int[][] negImg = negativeColor(imageData);
         twoDToImage(negImg, "./negative_apple.jpg");
 
@@ -28,8 +27,16 @@ public class ImageProcessing {
         // OUTPUT FOR TRIMMED
         int[][] trimmed = trimBorders(imageData, 60);
         twoDToImage(trimmed, "./trimmed_apple.jpg");
-        // int[][] allFilters = stretchHorizontally(shrinkVertically(colorFilter(negativeColor(trimBorders(invertImage(imageData), 50)), 200, 20, 40)));
-        // Painting with pixels
+
+        // OUTPUT FOR INVERTED
+        int[][] invertedImg = invertImage(imageData);
+        twoDToImage(invertedImg, "./inverted_apple.jpg");
+
+        // OUTPUT FOR COLOR FILTER
+        int[][] coloredImg = colorFilter(imageData, -75, 30, -30);
+        twoDToImage(coloredImg, "./colored_apple.jpg");
+
+
     }
     // Image Processing Methods
     public static int[][] trimBorders(int[][] imageTwoD, int pixelCount) {
@@ -83,26 +90,52 @@ public class ImageProcessing {
         return manipulatedImg;
     }
     public static int[][] invertImage(int[][] imageTwoD) {
-        // TODO: Fill in the code for this method
-        return null;
+        int[][] invertedImg = new int[imageTwoD.length][imageTwoD[0].length];
+        for (int i = 0; i < imageTwoD.length; i++) {
+            for (int j = 0; j < imageTwoD[i].length; j++) {
+                invertedImg[i][j] = imageTwoD[(imageTwoD.length - 1) - i][(imageTwoD[i].length - 1) - j];
+            }
+        }
+        return invertedImg;
     }
     public static int[][] colorFilter(int[][] imageTwoD, int redChangeValue, int greenChangeValue, int blueChangeValue) {
-        // TODO: Fill in the code for this method
-        return null;
+        int[][] manipulatedImg = new int[imageTwoD.length][imageTwoD[0].length];
+        for (int i = 0; i < imageTwoD.length; i++) {
+            for (int j = 0; j < imageTwoD[i].length; j++) {
+                int[] rgba = getRGBAFromPixel(imageTwoD[i][j]);
+
+                int newRed = rgba[0] + redChangeValue;
+                int newGreen = rgba[1] + greenChangeValue;
+                int newBlue = rgba[2] + blueChangeValue;
+
+                if (newRed > 255) {
+                    newRed = 255;
+                } else if (newRed < 0) {
+                    newRed = 0;
+                }
+
+                if (newGreen > 255) {
+                    newGreen = 255;
+                } else if (newGreen < 0) {
+                    newGreen = 0;
+                }
+
+                if (newBlue > 255) {
+                    newBlue = 255;
+                } else if (newBlue < 0) {
+                    newBlue = 0;
+                }
+
+                rgba[0] = newRed;
+                rgba[1] = newGreen;
+                rgba[2] = newBlue;
+
+                manipulatedImg[i][j] = getColorIntValFromRGBA(rgba);
+            }
+        }
+        return manipulatedImg;
     }
-    // Painting Methods
-    public static int[][] paintRandomImage(int[][] canvas) {
-        // TODO: Fill in the code for this method
-        return null;
-    }
-    public static int[][] paintRectangle(int[][] canvas, int width, int height, int rowPosition, int colPosition, int color) {
-        // TODO: Fill in the code for this method
-        return null;
-    }
-    public static int[][] generateRectangles(int[][] canvas, int numRectangles) {
-        // TODO: Fill in the code for this method
-        return null;
-    }
+
     // Utility Methods
     public static int[][] imgToTwoD(String inputFileOrLink) {
         try {
